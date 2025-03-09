@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Framework Documentation - Project Structure</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+        margin: 0;
+        font-family: var(--bs-body-font-family);
+        font-size: var(--bs-body-font-size);
+        font-weight: var(--bs-body-font-weight);
+        line-height: var(--bs-body-line-height);
+        color: white;
+        text-align: var(--bs-body-text-align);
+        background-color: #212529;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+        margin-left: 280px;
+    }
+    
+    .container {
+        display: flex;
+        min-height: 100vh;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">AF</div>
+            <div class="logo-text">Agent Framework</div>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search documentation...">
+        </div>
+        
+        <div class="nav-section">
+            <h3>Getting Started</h3>
+            <ul class="nav-links">
+                <li><a href="agent-framework-overview.html">Overview</a></li>
+                <li><a href="agent-framework-installation.html">Installation</a></li>
+                <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Core Components</h3>
+            <ul class="nav-links">
+                <li><a href="core-components.html#memory">Memory Management</a></li>
+                <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                <li><a href="agent-configuration.html">Agent Configuration</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Advanced Features</h3>
+            <ul class="nav-links">
+                <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                <li><a href="advanced-features.html#rag">RAG</a></li>
+                <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>API Reference</h3>
+            <ul class="nav-links">
+                <li><a href="APIReference.html#agent">Agent API</a></li>
+                <li><a href="APIReference.html#tool">Tool API</a></li>
+                <li><a href="APIReference.html#memory">Memory API</a></li>
+                <li><a href="APIReference.html#llm">LLM API</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Resources</h3>
+            <ul class="nav-links">
+                <li><a href="examples.html">Examples</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="FAQpage.html">FAQ</a></li>
+                <li><a href="troubleshooting.html">Troubleshooting</a></li>
+            </ul>
+        </div>
+    </aside>
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">Project Structure</h1>
+            
+            <div class="section">
+                <div class="section-content">
+                    <p>This section provides an overview of the framework's directory layout along with a description of each key file and directory. The structure is designed to be modular, making it easy to extend and maintain.</p>
+                    
+                    <p>Below is an example directory tree for the framework:</p>
+                    
+                    <div class="directory-tree">
+                        .<br>
+                        ├── agent.py<br> 
+                        ├── llm_provider.py<br> 
+                        ├── memory.py<br> 
+                        ├── tool.py<br> 
+                        ├── semantic_memory.py<br> 
+                        ├── rag.<br> 
+                        ├── agent_communication.py<br> 
+                        ├── evaluation_framework.py<br> 
+                        ├── multimodal_support.py<br> 
+                        ├── streaming_responses.py<br> 
+                        ├── type_safety.py<br> 
+                        └── tools/<br> 
+                        |&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;  ├── calculator.json<br> 
+                        |&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;     └── calculator/<br> 
+                        ├── __init__.py<br> 
+                        └── evaluate.py<br> 
+                    </div>
+                </div>
+                
+                <h2 class="section-title">File and Directory Breakdown</h2>
+                
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-name">agent.py</div>
+                        <div class="file-desc">
+                            Contains the core Agent class that orchestrates query processing by integrating the LLM, memory, and tools. It handles configuration loading, tool execution, and constructing prompts.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">llm_provider.py</div>
+                        <div class="file-desc">
+                            Defines an abstract base class for LLM providers and implements concrete classes for providers like OpenAI and Anthropic. It includes methods for formatting tool configurations and extracting tool calls from responses.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">memory.py</div>
+                        <div class="file-desc">
+                            Implements basic conversation memory management. It stores a limited number of recent messages and supports enabling or disabling memory.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">tool.py</div>
+                        <div class="file-desc">
+                            Provides utilities for creating and managing tool configurations. This file also includes a method for registering basic tools (e.g., a calculator) and setting up an agent configuration file.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">semantic_memory.py</div>
+                        <div class="file-desc">
+                            Extends the basic memory capabilities with semantic search. It uses open source libraries (SentenceTransformers and FAISS) to compute embeddings and perform similarity-based retrieval of past messages.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">rag.py</div>
+                        <div class="file-desc">
+                            Implements Retrieval-Augmented Generation (RAG) capabilities. It allows indexing and retrieving external documents to supplement the LLM's responses.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">agent_communication.py</div>
+                        <div class="file-desc">
+                            Contains functionality for inter-agent communication. It defines methods for sending and receiving messages between multiple agents, facilitating more advanced multi-agent scenarios.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">evaluation_framework.py</div>
+                        <div class="file-desc">
+                            Provides an evaluation framework to log performance metrics (e.g., response time) and generate reports. This module can be extended with more detailed analytics as needed.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">multimodal_support.py</div>
+                        <div class="file-desc">
+                            Adds basic multimodal capabilities to process images (and audio). For example, it uses Pillow to process images and return basic metadata.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">streaming_responses.py</div>
+                        <div class="file-desc">
+                            Implements a mechanism to stream responses in chunks rather than waiting for a full output. This improves interactivity when handling long responses.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name">type_safety.py</div>
+                        <div class="file-desc">
+                            Contains helper functions to validate input and output types, ensuring that functions receive the correct types to improve robustness.
+                        </div>
+                    </div>
+                    
+                    <div class="file-item">
+                        <div class="file-name dir-name">tools/</div>
+                        <div class="file-desc">
+                            This directory holds tool configuration files and implementations:
+                            <ul>
+                                <li><strong>calculator.json:</strong> Defines the configuration for a calculator tool, including its description, parameters, and function path.</li>
+                                <li><strong>calculator/</strong> Contains the implementation of the calculator tool:
+                                    <ul>
+                                        <li><strong>__init__.py:</strong> Marks the directory as a Python package.</li>
+                                        <li><strong>evaluate.py:</strong> Implements the logic for evaluating mathematical expressions safely.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-content">
+                    <p>This structure ensures that each component of the framework is organized by functionality, making it easier to locate, understand, and extend the codebase.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

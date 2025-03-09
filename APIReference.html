@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Framework API Reference</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+        margin: 0;
+        font-family: var(--bs-body-font-family);
+        font-size: var(--bs-body-font-size);
+        font-weight: var(--bs-body-font-weight);
+        line-height: var(--bs-body-line-height);
+        color: white;
+        text-align: var(--bs-body-text-align);
+        background-color: #212529;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+        margin-left: 280px;
+    }
+    
+    .container {
+        display: flex;
+        min-height: 100vh;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">AF</div>
+            <div class="logo-text">Agent Framework</div>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search documentation...">
+        </div>
+        
+        <div class="nav-section">
+            <h3>Getting Started</h3>
+            <ul class="nav-links">
+                <li><a href="agent-framework-overview.html">Overview</a></li>
+                <li><a href="agent-framework-installation.html">Installation</a></li>
+                <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Core Components</h3>
+            <ul class="nav-links">
+                <li><a href="core-components.html#memory">Memory Management</a></li>
+                <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                <li><a href="agent-configuration.html">Agent Configuration</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Advanced Features</h3>
+            <ul class="nav-links">
+                <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                <li><a href="advanced-features.html#rag">RAG</a></li>
+                <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>API Reference</h3>
+            <ul class="nav-links">
+                <li><a href="APIReference.html#agent">Agent API</a></li>
+                <li><a href="APIReference.html#tool">Tool API</a></li>
+                <li><a href="APIReference.html#memory">Memory API</a></li>
+                <li><a href="APIReference.html#llm">LLM API</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Resources</h3>
+            <ul class="nav-links">
+                <li><a href="examples.html">Examples</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="FAQpage.html">FAQ</a></li>
+                <li><a href="troubleshooting.html">Troubleshooting</a></li>
+            </ul>
+        </div>
+    </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">API Reference</h1>
+            
+            <div class="section">
+                <p class="section-intro">
+                    Below is a comprehensive API Reference that documents each module's classes, functions, parameters, and usage examples. 
+                    This reference is intended to help developers understand how to interact with and extend the framework.
+                </p>
+            </div>
+            
+            <div id="agent-core" class="section">
+                <h2 class="section-title">1. Agent Core (agent.py)</h2>
+                <div class="section-content">
+                    <h3>Class: Agent</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Orchestrates query processing by integrating configuration, memory management, LLM interactions, and tool execution.</p>
+                    
+                    <h4>Constructor:</h4>
+                    <pre><code>Agent(config_path: str, llm_provider: str = "openai")</code></pre>
+                    <ul>
+                        <li><strong>config_path:</strong> Path to the JSON configuration file.</li>
+                        <li><strong>llm_provider:</strong> Identifier for the LLM provider (e.g., <code>"openai"</code>, <code>"anthropic"</code>, <code>"custom"</code>).</li>
+                    </ul>
+                    
+                    <h4>Key Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>_load_config(config_path: str) -> Dict[str, Any]</code></strong><br>
+                        Reads and parses the configuration JSON file.</p>
+                        <p><strong>Usage Example:</strong></p>
+                        <pre><code>config = agent._load_config("agent_config.json")</code></pre>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>_load_tools(tool_names: List[str]) -> Dict[str, Dict[str, Any]]</code></strong><br>
+                        Loads tool configuration files from the <code>tools/</code> directory based on the list of tool names.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>_execute_tool(tool_name: str, parameters: Dict[str, Any]) -> Any</code></strong><br>
+                        Dynamically imports and executes a tool function with the provided parameters.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>_create_system_prompt() -> str</code></strong><br>
+                        Generates a system prompt using configuration data and tool information.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>_format_tools_for_llm() -> List[Dict[str, Any]]</code></strong><br>
+                        Formats tool configurations into the structure required by the LLM provider.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>process_query(query: str) -> str</code></strong><br>
+                        Main method to process a user query:</p>
+                        <ul>
+                            <li>Builds message context (system prompt, conversation memory, and query).</li>
+                            <li>Sends messages to the LLM.</li>
+                            <li>Detects and executes tool calls.</li>
+                            <li>Returns the final response.</li>
+                        </ul>
+                        <p><strong>Usage Example:</strong></p>
+                        <pre><code>from agent import create_agent, run_agent
+agent = create_agent("agent_config.json", llm_provider="openai")
+response = run_agent(agent, "Calculate 3 * 5")
+print("Agent Response:", response)</code></pre>
+                    </div>
+                    
+                    <h4>Helper Functions:</h4>
+                    <div class="method-block">
+                        <p><strong><code>create_agent(config_path: str, llm_provider: str = "openai") -> Agent</code></strong><br>
+                        Factory function to instantiate an Agent.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>run_agent(agent: Agent, query: str) -> str</code></strong><br>
+                        Executes the agent's query processing and returns the response.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="memory-management" class="section">
+                <h2 class="section-title">2. Memory Management (memory.py)</h2>
+                <div class="section-content">
+                    <h3>Class: Memory</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Manages basic conversation memory by storing a fixed number of recent messages.</p>
+                    
+                    <h4>Constructor:</h4>
+                    <pre><code>Memory(max_items: int = 10, enabled: bool = True)</code></pre>
+                    <ul>
+                        <li><strong>max_items:</strong> Maximum number of messages to retain.</li>
+                        <li><strong>enabled:</strong> Boolean flag to enable or disable memory.</li>
+                    </ul>
+                    
+                    <h4>Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>add(role: str, content: str) -> None</code></strong><br>
+                        Adds a message with the given role and content to the memory.</p>
+                        <p><strong>Usage Example:</strong></p>
+                        <pre><code>mem = Memory(max_items=10, enabled=True)
+mem.add("user", "Hello!")</code></pre>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>get_messages() -> List[Dict[str, str]]</code></strong><br>
+                        Returns the list of stored messages.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>clear() -> None</code></strong><br>
+                        Clears all stored messages.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>is_enabled() -> bool</code></strong><br>
+                        Checks if memory is enabled.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>set_enabled(enabled: bool) -> None</code></strong><br>
+                        Enables or disables memory.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="semantic-memory" class="section">
+                <h2 class="section-title">3. Semantic Memory (semantic_memory.py)</h2>
+                <div class="section-content">
+                    <h3>Class: SemanticMemory</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Extends basic memory by indexing messages with embeddings using SentenceTransformers and FAISS for semantic retrieval.</p>
+                    
+                    <h4>Constructor:</h4>
+                    <pre><code>SemanticMemory(max_items: int = 10, enabled: bool = True)</code></pre>
+                    
+                    <h4>Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>add(role: str, content: str) -> None</code></strong><br>
+                        Overrides <code>Memory.add</code> to compute and index the embedding of the content.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>retrieve_similar(query: str, top_k: int = 3) -> List[Dict[str, Any]]</code></strong><br>
+                        Retrieves messages semantically similar to the query using FAISS.</p>
+                        <p><strong>Usage Example:</strong></p>
+                        <pre><code>from semantic_memory import SemanticMemory
+sem_mem = SemanticMemory(max_items=10, enabled=True)
+sem_mem.add("user", "Tell me a joke")
+similar = sem_mem.retrieve_similar("I need something funny", top_k=1)
+print(similar)</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="llm-provider" class="section">
+                <h2 class="section-title">4. LLM Provider Integration (llm_provider.py)</h2>
+                <div class="section-content">
+                    <h3>Class: LLMProvider (Abstract Base Class)</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Defines the interface for LLM provider implementations.</p>
+                    
+                    <h4>Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>format_tools(tools: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]</code></strong><br>
+                        Must be implemented by subclasses to format tools for the LLM.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>get_response(messages: List[Dict[str, Any]], tools: Optional[List[Dict[str, Any]]]) -> str</code></strong><br>
+                        Must be implemented to get a response from the LLM.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>extract_tool_call(response_text: str) -> Optional[Dict[str, Any]]</code></strong><br>
+                        Parses the LLM response for JSON formatted tool calls.</p>
+                    </div>
+                    
+                    <h3>Concrete Implementations</h3>
+                    <ul>
+                        <li><strong><code>OpenAIProvider</code></strong></li>
+                        <li><strong><code>AnthropicProvider</code></strong></li>
+                        <li><strong><code>CustomLLMProvider</code></strong> (Example)</li>
+                    </ul>
+                    
+                    <p><strong>Usage Example:</strong></p>
+                    <pre><code>from llm_provider import get_llm_provider
+llm = get_llm_provider("openai")
+messages = [{"role": "system", "content": "You are helpful."},
+            {"role": "user", "content": "What's the capital of France?"}]
+response = llm.get_response(messages, tools=None)
+print(response)</code></pre>
+                </div>
+            </div>
+            
+            <div id="tool-management" class="section">
+                <h2 class="section-title">5. Tool Management (tool.py)</h2>
+                <div class="section-content">
+                    <h3>Class: ToolManager</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Provides static methods to create and register tool configurations.</p>
+                    
+                    <h4>Static Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>create_tool_config(tool_name: str, description: str, function_path: str, parameters: Dict[str, Any], required_params: List[str] = None, keywords: List[str] = None) -> None</code></strong><br>
+                        Creates a tool configuration file (JSON) in the <code>tools/</code> directory.</p>
+                        <p><strong>Usage Example:</strong></p>
+                        <pre><code>from tool import ToolManager
+ToolManager.create_tool_config(
+    tool_name="sample_tool",
+    description="A sample tool.",
+    function_path="tools.sample_tool.run",
+    parameters={"param": {"type": "string", "description": "A sample parameter"}},
+    required_params=["param"]
+)</code></pre>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>register_basic_tools() -> None</code></strong><br>
+                        Registers basic tools (e.g., a calculator) by creating configurations and setting up directories.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>setup_basic_config() -> None</code></strong><br>
+                        Registers basic tools and creates an initial agent configuration file (<code>agent_config.json</code>).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="rag" class="section">
+                <h2 class="section-title">6. Retrieval-Augmented Generation (rag.py)</h2>
+                <div class="section-content">
+                    <h3>Class: RetrievalAugmentedGeneration</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Indexes external documents and retrieves relevant context using embeddings.</p>
+                    
+                    <h4>Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>index_documents(documents: List[str]) -> None</code></strong><br>
+                        Processes and indexes a list of documents.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>retrieve(query: str, top_k: int = 3) -> List[str]</code></strong><br>
+                        Retrieves the top-k documents relevant to the query.</p>
+                    </div>
+                    
+                    <p><strong>Usage Example:</strong></p>
+                    <pre><code>from rag import RetrievalAugmentedGeneration
+rag = RetrievalAugmentedGeneration()
+documents = ["Document 1 text.", "Document 2 text.", "Document 3 text."]
+rag.index_documents(documents)
+results = rag.retrieve("Query text", top_k=2)
+print(results)</code></pre>
+                </div>
+            </div>
+            
+            <div id="agent-communication" class="section">
+                <h2 class="section-title">7. Agent Communication (agent_communication.py)</h2>
+                <div class="section-content">
+                    <h3>Class: InterAgentCommunicator</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Facilitates sending and receiving messages between agents.</p>
+                    
+                    <h4>Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>send_message(agent_id: str, message: Dict[str, Any]) -> None</code></strong><br>
+                        Sends a message to another agent.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>receive_messages() -> List[Any]</code></strong><br>
+                        Retrieves all messages from the communication queue.</p>
+                    </div>
+                    
+                    <p><strong>Usage Example:</strong></p>
+                    <pre><code>from agent_communication import InterAgentCommunicator
+comm = InterAgentCommunicator()
+comm.send_message("AgentX", {"text": "Hello, AgentX!"})
+msgs = comm.receive_messages()
+print("Messages:", msgs)</code></pre>
+                </div>
+            </div>
+            
+            <div id="evaluation-framework" class="section">
+                <h2 class="section-title">8. Evaluation Framework (evaluation_framework.py)</h2>
+                <div class="section-content">
+                    <h3>Class: EvaluationFramework</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Logs performance metrics and evaluates response times.</p>
+                    
+                    <h4>Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>log_metric(name: str, value: Any) -> None</code></strong><br>
+                        Records a performance metric.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>evaluate_response_time(start_time: float) -> float</code></strong><br>
+                        Computes and logs the time taken for a process.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>report() -> Dict[str, Any]</code></strong><br>
+                        Returns a report of all logged metrics.</p>
+                    </div>
+                    
+                    <p><strong>Usage Example:</strong></p>
+                    <pre><code>import time
+from evaluation_framework import EvaluationFramework
+eval_fw = EvaluationFramework()
+start = time.time()
+time.sleep(0.5)
+eval_fw.evaluate_response_time(start)
+print("Metrics:", eval_fw.report())</code></pre>
+                </div>
+            </div>
+            
+            <div id="multimodal-support" class="section">
+                <h2 class="section-title">9. Multimodal Support (multimodal_support.py)</h2>
+                <div class="section-content">
+                    <h3>Class: MultimodalProcessor</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    Provides basic support for processing images and audio.</p>
+                    
+                    <h4>Methods:</h4>
+                    
+                    <div class="method-block">
+                        <p><strong><code>process_image(image_path: str) -> str</code></strong><br>
+                        Processes an image and returns a description (e.g., dimensions).</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>process_audio(audio_path: str) -> str</code></strong><br>
+                        Processes an audio file and returns a placeholder transcription or analysis.</p>
+                    </div>
+                    
+                    <p><strong>Usage Example:</strong></p>
+                    <pre><code>from multimodal_support import MultimodalProcessor
+processor = MultimodalProcessor()
+img_info = processor.process_image("path/to/image.jpg")
+print("Image Info:", img_info)</code></pre>
+                </div>
+            </div>
+            
+            <div id="streaming-responses" class="section">
+                <h2 class="section-title">10. Streaming Responses (streaming_responses.py)</h2>
+                <div class="section-content">
+                    <h3>Function: stream_response</h3>
+                    
+                    <p><strong>Description:</strong><br>
+                    A generator function that yields chunks of a response for streaming output.</p>
+                    
+                    <h4>Signature:</h4>
+                    <pre><code>def stream_response(response: str, chunk_size: int = 20) -> Generator[str, None, None]</code></pre>
+                    <ul>
+                        <li><strong>response:</strong> The complete response text.</li>
+                        <li><strong>chunk_size:</strong> The size of each chunk (default is 20 characters).</li>
+                    </ul>
+                    
+                    <p><strong>Usage Example:</strong></p>
+                    <pre><code>from streaming_responses import stream_response
+for chunk in stream_response("This is a long response that will be streamed.", chunk_size=10):
+    print(chunk)</code></pre>
+                </div>
+            </div>
+            
+            <div id="type-safety" class="section">
+                <h2 class="section-title">11. Type Safety (type_safety.py)</h2>
+                <div class="section-content">
+                    <h3>Functions:</h3>
+                    
+                    <div class="method-block">
+                        <p><strong><code>validate_input(value: Any, expected_type: Type, param_name: str = "parameter") -> None</code></strong><br>
+                        Validates that an input value is of the expected type; raises a <code>TypeError</code> if not.</p>
+                    </div>
+                    
+                    <div class="method-block">
+                        <p><strong><code>validate_output(value: Any, expected_type: Type, param_name: str = "output") -> None</code></strong><br>
+                        Validates that an output value is of the expected type; raises a <code>TypeError</code> if not.</p>
+                    </div>
+                    
+                    <p><strong>Usage Example:</strong></p>
+                    <pre><code>from type_safety import validate_input, validate_output
+validate_input(42, int, "age")
+validate_output("Hello", str, "greeting")
+print("Type safety validation passed.")</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Summary</h2>
+                <div class="section-content">
+                    <p>This API Reference details each module, class, and function available in the framework along with usage examples. It is designed to help you quickly understand how to integrate and extend the framework's capabilities—from core agent functions to advanced features like semantic memory, RAG, and multimodal support.</p>
+                    <p>If you have any questions or need further details about a specific API element, please let us know!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Framework - Troubleshooting & FAQ</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+    margin: 0;
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    color: var(--bs-body-color);
+    text-align: var(--bs-body-text-align);
+    background-color: #212529;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    margin-right: 0;
+    margin-left: 0;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">AF</div>
+                <div class="logo-text">Agent Framework</div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search documentation...">
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul class="nav-links">
+                    <li><a href="agent-framework-overview.html">Overview</a></li>
+                    <li><a href="agent-framework-installation.html">Installation</a></li>
+                    <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                    <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Core Components</h3>
+                <ul class="nav-links">
+                    <li><a href="core-components.html#memory">Memory Management</a></li>
+                    <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                    <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                    <li><a href="agent-configuration.html">Agent Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Advanced Features</h3>
+                <ul class="nav-links">
+                    <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                    <li><a href="advanced-features.html#rag">RAG</a></li>
+                    <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                    <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                    <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>API Reference</h3>
+                <ul class="nav-links">
+                    <li><a href="APIReference.html#agent">Agent API</a></li>
+                    <li><a href="APIReference.html#tool">Tool API</a></li>
+                    <li><a href="APIReference.html#memory">Memory API</a></li>
+                    <li><a href="APIReference.html#llm">LLM API</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Resources</h3>
+                <ul class="nav-links">
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="FAQpage.html">FAQ</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">Troubleshooting & FAQ</h1>
+            
+            <div class="section">
+                <h2 class="section-title">Troubleshooting</h2>
+                <div class="section-content">
+                    <p>This section provides solutions to common issues you might encounter when using or extending the framework.</p>
+                    
+                    <h3>1. Agent Configuration Issues</h3>
+                    
+                    <div class="problem-solution">
+                        <div class="problem">Problem: "Config file not found: [path]"</div>
+                        <div class="solution">
+                            <div class="solution-title">Solution:</div>
+                            <ul>
+                                <li>Verify that the configuration file (e.g., <code>agent_config.json</code>) exists in the specified location.</li>
+                                <li>Check file permissions and ensure the path is correct.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-solution">
+                        <div class="problem">Problem: "Invalid JSON in config file: [error details]"</div>
+                        <div class="solution">
+                            <div class="solution-title">Solution:</div>
+                            <ul>
+                                <li>Use a JSON validator (such as <a href="https://jsonlint.com/" style="color: var(--accent-light);">jsonlint.com</a>) to check your configuration file for syntax errors.</li>
+                                <li>Ensure proper formatting (e.g., commas between entries, correct quotation marks).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3>2. LLM Provider and API Key Errors</h3>
+                    
+                    <div class="problem-solution">
+                        <div class="problem">Problem: "Error: OpenAI API key not set. Please set the OPENAI_API_KEY environment variable."</div>
+                        <div class="solution">
+                            <div class="solution-title">Solution:</div>
+                            <p>Set the API key in your environment:</p>
+                            <pre><code>export OPENAI_API_KEY="your_openai_api_key_here"</code></pre>
+                            <p>For Windows, use:</p>
+                            <pre><code>set OPENAI_API_KEY=your_openai_api_key_here</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-solution">
+                        <div class="problem">Problem: "Module not installed. Please install it with 'pip install [module]'"</div>
+                        <div class="solution">
+                            <div class="solution-title">Solution:</div>
+                            <p>Install the missing module using pip, e.g.:</p>
+                            <pre><code>pip install openai</code></pre>
+                            <p>Verify that the module is available in your current Python environment.</p>
+                        </div>
+                    </div>
+                    
+                    <h3>3. Tool Loading and Execution Errors</h3>
+                    
+                    <div class="problem-solution">
+                        <div class="problem">Problem: "Warning: Tool config not found: tools/[tool_name].json"</div>
+                        <div class="solution">
+                            <div class="solution-title">Solution:</div>
+                            <ul>
+                                <li>Confirm that the tool configuration file exists in the <code>tools/</code> directory.</li>
+                                <li>Verify that the tool name in your configuration file is spelled correctly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-solution">
+                        <div class="problem">Problem: "Error loading tool function: [error details]"</div>
+                        <div class="solution">
+                            <div class="solution-title">Solution:</div>
+                            <ul>
+                                <li>Check the <code>function_path</code> in the tool configuration to ensure it points to the correct module and function.</li>
+                                <li>Confirm that the corresponding Python file exists and that the function is defined.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3>4. Memory Issues</h3>
+                    
+                    <div class="problem-solution">
+                        <div class="problem">Problem: Memory not storing messages as expected</div>
+                        <div class="solution">
+                            <div class="solution-title">Solution:</div>
+                            <ul>
+                                <li>Verify that memory is enabled in your configuration (<code>"memory": true</code>).</li>
+                                <li>For semantic memory, check that dependencies (SentenceTransformers, FAISS) are installed and that the embedding model is loading correctly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3>5. RAG (Retrieval-Augmented Generation) Issues</h3>
+                    
+                    <div class="problem-solution">
+                        <div class="problem">Problem: No documents retrieved or incorrect indexing</div>
+                        <div class="solution">
+                            <div class="solution-title">Solution:</div>
+                            <ul>
+                                <li>Ensure you have correctly indexed documents using the <code>index_documents</code> method.</li>
+                                <li>Check that the documents provided are non-empty and in plain text.</li>
+                                <li>Validate that the FAISS index is built correctly and that the embeddings are computed.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="section-content">
+                    <div class="faq-item">
+                        <div class="faq-question">Q1: How do I switch between basic and semantic memory?</div>
+                        <div class="faq-answer">
+                            <p>Update your configuration file by adding or modifying the <code>"memory_type"</code> key. For example:</p>
+                            <pre><code>{
+  "config": {
+    "memory": true,
+    "memory_type": "semantic"
+  }
+}</code></pre>
+                            <p>In the agent initialization code, the memory module is chosen based on this value.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q2: How can I add new tools to the framework?</div>
+                        <div class="faq-answer">
+                            <p>Use the <code>ToolManager.create_tool_config</code> method to define a new tool, then implement the tool function in the appropriate module under the <code>tools/</code> directory. Finally, add the tool's name to your agent configuration file under the <code>"tools"</code> list.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q3: How do I integrate a new LLM provider?</div>
+                        <div class="faq-answer">
+                            <p>Implement a new provider class that inherits from <code>LLMProvider</code> and implements the required methods (<code>format_tools</code>, <code>get_response</code>, <code>extract_tool_call</code>). Update the <code>get_llm_provider</code> function in <code>llm_provider.py</code> to include your new provider.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q4: Can I use this framework for multimodal applications?</div>
+                        <div class="faq-answer">
+                            <p>Yes. The framework includes a <code>MultimodalProcessor</code> in <code>multimodal_support.py</code> for processing images (and a stub for audio). You can extend this module to integrate additional libraries or services for richer multimodal functionality.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q5: What should I do if I encounter a type error?</div>
+                        <div class="faq-answer">
+                            <p>Use the helper functions in <code>type_safety.py</code> to validate inputs and outputs. Review the error message to determine which parameter is causing the issue, and verify that it matches the expected type.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q6: Where can I find logs or additional debugging information?</div>
+                        <div class="faq-answer">
+                            <p>The framework prints warnings and error messages to the console. For more detailed logging, consider integrating a logging framework (such as Python's built-in <code>logging</code> module) to capture and persist logs.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q7: How can I report bugs or contribute to the framework?</div>
+                        <div class="faq-answer">
+                            <p>If you encounter any bugs or have suggestions for improvements, consider opening an issue on the project's GitHub repository. Contributions via pull requests are also welcome.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Additional Tips</h2>
+                <div class="section-content">
+                    <h3>Testing</h3>
+                    <p>Before deploying, test each module individually. For example, run simple scripts to verify memory storage, LLM responses, and tool executions.</p>
+                    
+                    <h3>Documentation</h3>
+                    <p>Keep your configuration files and custom modules well-documented, making it easier to onboard new team members or contributors.</p>
+                    
+                    <h3>Community Support</h3>
+                    <p>If you run into issues that aren't covered in this FAQ, consider reaching out to relevant community forums (e.g., GitHub Issues, Stack Overflow) for further assistance.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

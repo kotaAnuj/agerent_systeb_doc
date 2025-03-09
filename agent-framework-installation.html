@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Framework Documentation - Installation</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+        margin: 0;
+        font-family: var(--bs-body-font-family);
+        font-size: var(--bs-body-font-size);
+        font-weight: var(--bs-body-font-weight);
+        line-height: var(--bs-body-line-height);
+        color: white;
+        text-align: var(--bs-body-text-align);
+        background-color: #212529;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+        margin-left: 280px;
+    }
+    
+    .container {
+        display: flex;
+        min-height: 100vh;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">AF</div>
+                <div class="logo-text">Agent Framework</div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search documentation...">
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul class="nav-links">
+                    <li><a href="agent-framework-overview.html">Overview</a></li>
+                    <li><a href="agent-framework-installation.html">Installation</a></li>
+                    <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                    <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Core Components</h3>
+                <ul class="nav-links">
+                    <li><a href="core-components.html#memory">Memory Management</a></li>
+                    <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                    <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                    <li><a href="agent-configuration.html">Agent Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Advanced Features</h3>
+                <ul class="nav-links">
+                    <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                    <li><a href="advanced-features.html#rag">RAG</a></li>
+                    <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                    <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                    <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>API Reference</h3>
+                <ul class="nav-links">
+                    <li><a href="APIReference.html#agent">Agent API</a></li>
+                    <li><a href="APIReference.html#tool">Tool API</a></li>
+                    <li><a href="APIReference.html#memory">Memory API</a></li>
+                    <li><a href="APIReference.html#llm">LLM API</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Resources</h3>
+                <ul class="nav-links">
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="FAQpage.html">FAQ</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">Installation</h1>
+            
+            <div class="section">
+                <div class="section-content">
+                    <p>This section covers how to set up the framework, including prerequisites, package installation, and environment setup.</p>
+                </div>
+                
+                <div class="numbered-steps">
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Prerequisites</div>
+                        </div>
+                        <div class="step-content">
+                            <p>Before installing, ensure that you have the following:</p>
+                            <ul>
+                                <li><strong>Python 3.7+</strong> installed. You can check your version with:</li>
+                            </ul>
+                            
+                            <pre><code>python --version</code></pre>
+                            
+                            <ul>
+                                <li><strong>pip (Python package manager)</strong> installed. You can check with:</li>
+                            </ul>
+                            
+                            <pre><code>pip --version</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Install Required Packages</div>
+                        </div>
+                        <div class="step-content">
+                            <p>The framework relies on several open-source libraries, including:</p>
+                            <ul>
+                                <li><strong>SentenceTransformers</strong> (for embeddings)</li>
+                                <li><strong>FAISS</strong> (for fast similarity search)</li>
+                                <li><strong>Pillow</strong> (for image processing)</li>
+                            </ul>
+                            
+                            <p>To install all dependencies, run:</p>
+                            
+                            <pre><code>pip install sentence-transformers faiss-cpu pillow</code></pre>
+                            
+                            <p>If you plan to use GPU acceleration for FAISS, install the GPU-supported version:</p>
+                            
+                            <pre><code>pip install faiss-gpu</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Environment Setup</div>
+                        </div>
+                        <div class="step-content">
+                            <p>To manage dependencies efficiently, it's recommended to set up a virtual environment:</p>
+                            
+                            <pre><code># Create a virtual environment (Linux/Mac)
+python -m venv venv
+source venv/bin/activate
+
+# (Windows)
+python -m venv venv
+venv\Scripts\activate</code></pre>
+                            
+                            <p>Then, install the required dependencies inside the virtual environment:</p>
+                            
+                            <pre><code>pip install -r requirements.txt</code></pre>
+                            
+                            <p>If you don't have a <code>requirements.txt</code> file, create one and add the following:</p>
+                            
+                            <pre><code>sentence-transformers
+faiss-cpu
+pillow</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Verify Installation</div>
+                        </div>
+                        <div class="step-content">
+                            <p>To ensure everything is installed correctly, run the following Python snippet:</p>
+                            
+                            <pre><code>import torch
+from sentence_transformers import SentenceTransformer
+import faiss
+from PIL import Image
+
+# Check SentenceTransformers
+model = SentenceTransformer('all-MiniLM-L6-v2')
+print("SentenceTransformer loaded successfully.")
+
+# Check FAISS
+index = faiss.IndexFlatL2(384)  # 384 is the embedding dimension
+print("FAISS index initialized.")
+
+# Check Pillow
+image = Image.new('RGB', (100, 100), color='red')
+print("Pillow image created.")</code></pre>
+                            
+                            <p>If no errors occur, your environment is set up correctly.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Clone the Repository (Optional, if using a GitHub project)</div>
+                        </div>
+                        <div class="step-content">
+                            <p>If this framework is hosted on GitHub, you can clone it using:</p>
+                            
+                            <pre><code>git clone https://github.com/your-repo-name/ai-agent-framework.git
+cd ai-agent-framework</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Running a Quick Test</div>
+                        </div>
+                        <div class="step-content">
+                            <p>After installation, test the framework by creating an agent and processing a query:</p>
+                            
+                            <pre><code>from agent import create_agent, run_agent
+
+# Create an agent from the default config
+agent = create_agent("agent_config.json", llm_provider="openai")
+
+# Test query
+response = run_agent(agent, "Hello, what can you do?")
+print("Agent Response:", response)</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="next-steps">
+                    <h3>Next Steps</h3>
+                    <p>Once the installation is complete, you can proceed to:</p>
+                    <div class="links-container">
+                        <a href="#" class="arrow-link">Project Structure</a>
+                        <a href="#" class="arrow-link">Getting Started</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

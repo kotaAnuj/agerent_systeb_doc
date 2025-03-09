@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Components - Agent Framework Documentation</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+<style>
+    body {
+    margin: 0;
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    color: white;
+    text-align: var(--bs-body-text-align);
+    background-color: #212529;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    margin-left: 280px;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    margin-right: 0;
+    margin-left: 0;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">AF</div>
+                <div class="logo-text">Agent Framework</div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search documentation...">
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul class="nav-links">
+                    <li><a href="agent-framework-overview.html">Overview</a></li>
+                    <li><a href="agent-framework-installation.html">Installation</a></li>
+                    <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                    <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Core Components</h3>
+                <ul class="nav-links">
+                    <li><a href="core-components.html#memory">Memory Management</a></li>
+                    <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                    <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                    <li><a href="agent-configuration.html">Agent Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Advanced Features</h3>
+                <ul class="nav-links">
+                    <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                    <li><a href="advanced-features.html#rag">RAG</a></li>
+                    <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                    <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                    <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>API Reference</h3>
+                <ul class="nav-links">
+                    <li><a href="APIReference.html#agent">Agent API</a></li>
+                    <li><a href="APIReference.html#tool">Tool API</a></li>
+                    <li><a href="APIReference.html#memory">Memory API</a></li>
+                    <li><a href="APIReference.html#llm">LLM API</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Resources</h3>
+                <ul class="nav-links">
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="FAQpage.html">FAQ</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">Core Components</h1>
+            
+            <div class="section">
+                <div class="section-content">
+                    <p>This section details the primary building blocks of the framework, describing their responsibilities and how they interact. The core components include memory management, LLM provider integration, and tool management, all of which are orchestrated by the central Agent.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">1. Memory Management</h2>
+                <div class="section-content">
+                    <p>Memory management is crucial for maintaining conversation context. The framework provides two levels of memory:</p>
+                    
+                    <div class="subsection">
+                        <h3 class="subsection-title">Basic Memory</h3>
+                        <div class="component-meta">
+                            <p><strong>Location:</strong> <code>memory.py</code></p>
+                            <p><strong>Purpose:</strong> Stores a limited number of recent messages (user, assistant, or system) for context during interactions.</p>
+                        </div>
+                        
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li><strong>Message Storage:</strong> Keeps messages as dictionaries with <code>role</code> and <code>content</code>.</li>
+                            <li><strong>Size Limitation:</strong> Only retains the most recent messages based on a configurable maximum (default is 10).</li>
+                            <li><strong>Toggle Capability:</strong> Memory can be enabled or disabled as needed.</li>
+                        </ul>
+                        
+                        <h4>Example Usage:</h4>
+                        <pre><code>from memory import Memory
+
+# Create a memory instance with a max of 10 messages, enabled
+mem = Memory(max_items=10, enabled=True)
+mem.add("user", "Hello, how are you?")
+messages = mem.get_messages()
+print(messages)</code></pre>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3 class="subsection-title">Semantic Memory</h3>
+                        <div class="component-meta">
+                            <p><strong>Location:</strong> <code>semantic_memory.py</code></p>
+                            <p><strong>Purpose:</strong> Enhances basic memory by using embeddings to index and retrieve semantically similar messages. It leverages open source libraries (SentenceTransformers and FAISS) to enable similarity search.</p>
+                        </div>
+                        
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li><strong>Embedding Generation:</strong> Computes a vector representation for each message.</li>
+                            <li><strong>Similarity Search:</strong> Uses FAISS to quickly retrieve messages similar to a given query.</li>
+                            <li><strong>Dynamic Index Update:</strong> Maintains a FAISS index that is rebuilt when the message history exceeds the defined limit.</li>
+                        </ul>
+                        
+                        <h4>Example Usage:</h4>
+                        <pre><code>from semantic_memory import SemanticMemory
+
+# Create a semantic memory instance
+sem_mem = SemanticMemory(max_items=10, enabled=True)
+sem_mem.add("user", "Tell me a joke")
+similar = sem_mem.retrieve_similar("I want to hear something funny", top_k=1)
+print("Semantically similar messages:", similar)</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <div class="section">
+                <h2 class="section-title">2. LLM Provider Integration</h2>
+                <div class="section-content">
+                    <div class="component-meta">
+                        <p><strong>Location:</strong> <code>llm_provider.py</code></p>
+                        <p><strong>Purpose:</strong> Provides a unified interface to interact with different LLM providers. The base class defines how to format tools, retrieve responses, and extract tool calls from the LLM's output.</p>
+                    </div>
+                    
+                    <h3>Components:</h3>
+                    <ul>
+                        <li><strong>LLMProvider (Abstract Base Class):</strong> Declares methods like <code>format_tools</code>, <code>get_response</code>, and <code>extract_tool_call</code>.</li>
+                        <li><strong>OpenAIProvider & AnthropicProvider:</strong> Concrete implementations that interface with OpenAI and Anthropic LLMs, respectively.</li>
+                    </ul>
+                    
+                    <h3>Key Features:</h3>
+                    <ul>
+                        <li><strong>Tool Formatting:</strong> Converts tool configurations into the appropriate format for the LLM.</li>
+                        <li><strong>Response Handling:</strong> Processes the response from the LLM, including checking for JSON formatted tool calls.</li>
+                    </ul>
+                    
+                    <h3>Example Usage:</h3>
+                    <pre><code>from llm_provider import get_llm_provider
+
+# Initialize an LLM provider (default: OpenAI)
+llm = get_llm_provider("openai")
+
+messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "What's the weather like today?"}
+]
+
+# Get a response from the LLM
+response = llm.get_response(messages, tools=None)
+print("LLM Response:", response)</code></pre>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <div class="section">
+                <h2 class="section-title">3. Tool Management</h2>
+                <div class="section-content">
+                    <div class="component-meta">
+                        <p><strong>Location:</strong> <code>tool.py</code></p>
+                        <p><strong>Purpose:</strong> Provides utilities for creating, registering, and loading tools (e.g., a calculator) into the framework.</p>
+                    </div>
+                    
+                    <h3>Key Features:</h3>
+                    <ul>
+                        <li><strong>Tool Configuration Creation:</strong> <code>ToolManager.create_tool_config</code> allows you to define a tool's name, description, function path, and parameters.</li>
+                        <li><strong>Basic Tool Registration:</strong> <code>ToolManager.register_basic_tools</code> demonstrates how to register a simple calculator tool.</li>
+                        <li><strong>Agent Configuration Setup:</strong> <code>ToolManager.setup_basic_config</code> registers basic tools and generates an initial agent configuration file.</li>
+                    </ul>
+                    
+                    <h3>Example Usage:</h3>
+                    <pre><code>from tool import ToolManager
+
+# Register the basic tools, such as a calculator
+ToolManager.setup_basic_config()</code></pre>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <div class="section">
+                <h2 class="section-title">4. Agent Core</h2>
+                <div class="section-content">
+                    <div class="component-meta">
+                        <p><strong>Location:</strong> <code>agent.py</code></p>
+                        <p><strong>Purpose:</strong> Orchestrates the entire workflow—from reading configuration and loading tools, to processing queries using the LLM and executing any required tools.</p>
+                    </div>
+                    
+                    <h3>Workflow:</h3>
+                    <ul>
+                        <li><strong>Configuration Loading:</strong> Reads settings from a JSON file.</li>
+                        <li><strong>Tool Loading:</strong> Loads tool definitions based on configuration.</li>
+                        <li><strong>Memory Integration:</strong> Appends conversation history to the query context.</li>
+                        <li><strong>LLM Processing:</strong> Sends the prompt to the LLM and handles responses, including tool calls.</li>
+                        <li><strong>Tool Execution:</strong> Dynamically imports and executes tool functions if a tool call is detected.</li>
+                    </ul>
+                    
+                    <h3>Example Usage:</h3>
+                    <pre><code>from agent import create_agent, run_agent
+
+# Create an agent using the configuration file and specified LLM provider
+agent = create_agent("agent_config.json", llm_provider="openai")
+
+# Process a user query
+response = run_agent(agent, "Calculate 3 * 5")
+print("Agent Response:", response)</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Summary</h2>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Memory Management</strong> ensures the agent maintains context with both basic and semantic capabilities.</li>
+                        <li><strong>LLM Provider Integration</strong> abstracts communication with various LLMs, ensuring flexibility and consistency.</li>
+                        <li><strong>Tool Management</strong> allows for dynamic extension of the agent's functionality via external tools.</li>
+                        <li><strong>Agent Core</strong> brings these components together to create a powerful and extendable conversational agent.</li>
+                    </ul>
+                    
+                    <p>These core components form the backbone of the framework, enabling developers to build, customize, and extend the system for a wide range of applications.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

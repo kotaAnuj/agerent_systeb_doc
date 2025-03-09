@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Framework Documentation - Advanced Features</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+        margin: 0;
+        font-family: var(--bs-body-font-family);
+        font-size: var(--bs-body-font-size);
+        font-weight: var(--bs-body-font-weight);
+        line-height: var(--bs-body-line-height);
+        color: white;
+        text-align: var(--bs-body-text-align);
+        background-color: #212529;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+        margin-left: 280px;
+    }
+    
+    .container {
+        display: flex;
+        min-height: 100vh;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">AF</div>
+                <div class="logo-text">Agent Framework</div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search documentation...">
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul class="nav-links">
+                    <li><a href="agent-framework-overview.html">Overview</a></li>
+                    <li><a href="agent-framework-installation.html">Installation</a></li>
+                    <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                    <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Core Components</h3>
+                <ul class="nav-links">
+                    <li><a href="core-components.html#memory">Memory Management</a></li>
+                    <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                    <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                    <li><a href="agent-configuration.html">Agent Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Advanced Features</h3>
+                <ul class="nav-links">
+                    <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                    <li><a href="advanced-features.html#rag">RAG</a></li>
+                    <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                    <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                    <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>API Reference</h3>
+                <ul class="nav-links">
+                    <li><a href="APIReference.html#agent">Agent API</a></li>
+                    <li><a href="APIReference.html#tool">Tool API</a></li>
+                    <li><a href="APIReference.html#memory">Memory API</a></li>
+                    <li><a href="APIReference.html#llm">LLM API</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Resources</h3>
+                <ul class="nav-links">
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="FAQpage.html">FAQ</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">Advanced Features</h1>
+            
+            <div class="section">
+                <div class="section-content">
+                    <p>This section describes the enhanced capabilities that extend the framework beyond its core functions. These advanced features include Retrieval-Augmented Generation (RAG), inter-agent communication, an evaluation framework, multimodal support, streaming responses, and type safety. Each feature can be enabled and integrated via configuration and modular code design.</p>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="feature-section" id="rag">
+                    <div class="feature-section-header">
+                        <div class="feature-number">1</div>
+                        <div class="feature-title">Retrieval-Augmented Generation (RAG)</div>
+                    </div>
+                    <div class="feature-content">
+                        <p><strong>Purpose:</strong><br>
+                        RAG enhances the LLM's responses by retrieving relevant documents or context from an external source. This is especially useful when the LLM's internal context is insufficient.</p>
+                        
+                        <p><strong>Implementation Details:</strong></p>
+                        <ul>
+                            <li><strong>Module:</strong> <code>rag.py</code></li>
+                            <li><strong>Libraries Used:</strong>
+                                <ul>
+                                    <li><a href="https://www.sbert.net/" class="highlight">SentenceTransformers</a> for computing embeddings.</li>
+                                    <li><a href="https://github.com/facebookresearch/faiss" class="highlight">FAISS</a> for fast similarity search.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <p><strong>Key Methods:</strong></p>
+                        <ul>
+                            <li><code>index_documents(documents: List[str])</code>: Processes and indexes a list of documents.</li>
+                            <li><code>retrieve(query: str, top_k: int = 3)</code>: Retrieves the most relevant documents based on the query.</li>
+                        </ul>
+                        
+                        <div class="file-label">Example Usage:</div>
+                        <pre><code>from rag import RetrievalAugmentedGeneration
+
+# Initialize RAG module
+rag = RetrievalAugmentedGeneration()
+
+# Index a set of documents
+documents = [
+    "Python is a versatile programming language.",
+    "FAISS is used for efficient similarity search.",
+    "SentenceTransformers provide robust embeddings for text."
+]
+rag.index_documents(documents)
+
+# Retrieve context for a query
+relevant_docs = rag.retrieve("How do I search efficiently?", top_k=2)
+print("Retrieved Documents:", relevant_docs)</code></pre>
+                    </div>
+                </div>
+                
+                <div class="feature-section" id="agent-communication">
+                    <div class="feature-section-header">
+                        <div class="feature-number">2</div>
+                        <div class="feature-title">Agent Communication</div>
+                    </div>
+                    <div class="feature-content">
+                        <p><strong>Purpose:</strong><br>
+                        Enables messaging and coordination between multiple agents, supporting more complex multi-agent systems.</p>
+                        
+                        <p><strong>Implementation Details:</strong></p>
+                        <ul>
+                            <li><strong>Module:</strong> <code>agent_communication.py</code></li>
+                            <li><strong>Functionality:</strong>
+                                <ul>
+                                    <li>Sending messages to other agents.</li>
+                                    <li>Receiving messages from a communication queue.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <p><strong>Key Methods:</strong></p>
+                        <ul>
+                            <li><code>send_message(agent_id: str, message: Dict[str, Any])</code>: Sends a message to a designated agent.</li>
+                            <li><code>receive_messages()</code>: Retrieves and clears the current message queue.</li>
+                        </ul>
+                        
+                        <div class="file-label">Example Usage:</div>
+                        <pre><code>from agent_communication import InterAgentCommunicator
+
+# Create a communicator instance
+communicator = InterAgentCommunicator()
+
+# Send a message to agent "AgentX"
+communicator.send_message("AgentX", {"text": "Hello, AgentX!"})
+
+# Retrieve messages
+messages = communicator.receive_messages()
+print("Inter-Agent Messages:", messages)</code></pre>
+                    </div>
+                </div>
+                
+                <div class="feature-section" id="evaluation-framework">
+                    <div class="feature-section-header">
+                        <div class="feature-number">3</div>
+                        <div class="feature-title">Evaluation Framework</div>
+                    </div>
+                    <div class="feature-content">
+                        <p><strong>Purpose:</strong><br>
+                        Provides a mechanism to log performance metrics and assess the efficiency and responsiveness of the agent. This is useful for monitoring and iterative improvements.</p>
+                        
+                        <p><strong>Implementation Details:</strong></p>
+                        <ul>
+                            <li><strong>Module:</strong> <code>evaluation_framework.py</code></li>
+                            <li><strong>Functionality:</strong>
+                                <ul>
+                                    <li>Logging custom metrics.</li>
+                                    <li>Evaluating response time.</li>
+                                    <li>Reporting current performance metrics.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <p><strong>Key Methods:</strong></p>
+                        <ul>
+                            <li><code>log_metric(name: str, value: Any)</code>: Records a performance metric.</li>
+                            <li><code>evaluate_response_time(start_time: float)</code>: Computes and logs the response time.</li>
+                            <li><code>report()</code>: Returns a dictionary of logged metrics.</li>
+                        </ul>
+                        
+                        <div class="file-label">Example Usage:</div>
+                        <pre><code>import time
+from evaluation_framework import EvaluationFramework
+
+# Initialize evaluation framework
+eval_framework = EvaluationFramework()
+
+# Start a timer and simulate a process
+start_time = time.time()
+# ... perform some operations ...
+time.sleep(0.5)
+
+# Evaluate and log response time
+response_time = eval_framework.evaluate_response_time(start_time)
+print("Response Time:", response_time)
+
+# Retrieve and print all metrics
+metrics_report = eval_framework.report()
+print("Metrics Report:", metrics_report)</code></pre>
+                    </div>
+                </div>
+                
+                <div class="feature-section" id="multimodal-support">
+                    <div class="feature-section-header">
+                        <div class="feature-number">4</div>
+                        <div class="feature-title">Multimodal Support</div>
+                    </div>
+                    <div class="feature-content">
+                        <p><strong>Purpose:</strong><br>
+                        Adds the capability to process and analyze non-text data such as images and audio. This can be used to build richer interactive applications.</p>
+                        
+                        <p><strong>Implementation Details:</strong></p>
+                        <ul>
+                            <li><strong>Module:</strong> <code>multimodal_support.py</code></li>
+                            <li><strong>Libraries Used:</strong>
+                                <ul>
+                                    <li><a href="https://python-pillow.org/" class="highlight">Pillow</a> for image processing.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <p><strong>Key Methods:</strong></p>
+                        <ul>
+                            <li><code>process_image(image_path: str)</code>: Processes an image and returns descriptive metadata (e.g., dimensions).</li>
+                            <li><code>process_audio(audio_path: str)</code>: (Stub) Processes audio and returns a placeholder message or transcription.</li>
+                        </ul>
+                        
+                        <div class="file-label">Example Usage:</div>
+                        <pre><code>from multimodal_support import MultimodalProcessor
+
+# Create a processor instance
+processor = MultimodalProcessor()
+
+# Process an image file
+image_info = processor.process_image("path/to/image.jpg")
+print("Image Info:", image_info)
+
+# Process an audio file (stub)
+audio_info = processor.process_audio("path/to/audio.mp3")
+print("Audio Info:", audio_info)</code></pre>
+                    </div>
+                </div>
+                
+                <div class="feature-section" id="streaming-responses">
+                    <div class="feature-section-header">
+                        <div class="feature-number">5</div>
+                        <div class="feature-title">Streaming Responses</div>
+                    </div>
+                    <div class="feature-content">
+                        <p><strong>Purpose:</strong><br>
+                        Enhances user interaction by streaming the LLM's response incrementally, rather than waiting for a full output. This is especially useful for long responses.</p>
+                        
+                        <p><strong>Implementation Details:</strong></p>
+                        <ul>
+                            <li><strong>Module:</strong> <code>streaming_responses.py</code></li>
+                            <li><strong>Functionality:</strong>
+                                <ul>
+                                    <li>Implements a generator to yield chunks of text from the complete response.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <p><strong>Key Methods:</strong></p>
+                        <ul>
+                            <li><code>stream_response(response: str, chunk_size: int = 20)</code>: Yields segments of the response text.</li>
+                        </ul>
+                        
+                        <div class="file-label">Example Usage:</div>
+                        <pre><code>from streaming_responses import stream_response
+
+full_response = "This is a very long response generated by the agent, which we will stream in small chunks."
+print("Streaming Response:")
+for chunk in stream_response(full_response, chunk_size=20):
+    print(chunk)</code></pre>
+                    </div>
+                </div>
+                
+                <div class="feature-section" id="type-safety">
+                    <div class="feature-section-header">
+                        <div class="feature-number">6</div>
+                        <div class="feature-title">Type Safety</div>
+                    </div>
+                    <div class="feature-content">
+                        <p><strong>Purpose:</strong><br>
+                        Ensures that functions receive the correct types of inputs and produce expected types of outputs. This helps catch errors early and improves code robustness.</p>
+                        
+                        <p><strong>Implementation Details:</strong></p>
+                        <ul>
+                            <li><strong>Module:</strong> <code>type_safety.py</code></li>
+                            <li><strong>Functionality:</strong>
+                                <ul>
+                                    <li>Validates inputs and outputs using helper functions.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <p><strong>Key Methods:</strong></p>
+                        <ul>
+                            <li><code>validate_input(value: Any, expected_type: Type, param_name: str = "parameter")</code>: Raises a <code>TypeError</code> if the input type does not match.</li>
+                            <li><code>validate_output(value: Any, expected_type: Type, param_name: str = "output")</code>: Raises a <code>TypeError</code> if the output type does not match.</li>
+                        </ul>
+                        
+                        <div class="file-label">Example Usage:</div>
+                        <pre><code>from type_safety import validate_input, validate_output
+
+# Validate input parameter
+validate_input(123, int, "example_param")
+
+# Validate output type
+validate_output("hello", str, "example_output")
+
+print("Type safety checks passed.")</code></pre>
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>Summary</h3>
+                    <p>The advanced features extend the framework by:</p>
+                    <ul>
+                        <li><strong>Enhancing Context:</strong> RAG retrieves external documents to supplement responses.</li>
+                        <li><strong>Supporting Multi-Agent Systems:</strong> Agent communication facilitates coordination between agents.</li>
+                        <li><strong>Measuring Performance:</strong> The evaluation framework logs metrics to help optimize performance.</li>
+                        <li><strong>Processing Multimedia:</strong> Multimodal support allows for image and audio processing.</li>
+                        <li><strong>Improving Interaction:</strong> Streaming responses provide a more dynamic user experience.</li>
+                        <li><strong>Ensuring Reliability:</strong> Type safety functions prevent type-related errors.</li>
+                    </ul>
+                    <p>By integrating these advanced features, developers can build richer, more robust, and interactive conversational agents that rival state-of-the-art systems.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

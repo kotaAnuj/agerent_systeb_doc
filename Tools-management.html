@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Management - Agent Framework Documentation</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+    margin: 0;
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    color: var(--bs-body-color);
+    text-align: var(--bs-body-text-align);
+    background-color: #212529;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    margin-right: 0;
+    margin-left: 0;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">AF</div>
+                <div class="logo-text">Agent Framework</div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search documentation...">
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul class="nav-links">
+                    <li><a href="agent-framework-overview.html">Overview</a></li>
+                    <li><a href="agent-framework-installation.html">Installation</a></li>
+                    <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                    <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Core Components</h3>
+                <ul class="nav-links">
+                    <li><a href="core-components.html#memory">Memory Management</a></li>
+                    <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                    <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                    <li><a href="agent-configuration.html">Agent Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Advanced Features</h3>
+                <ul class="nav-links">
+                    <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                    <li><a href="advanced-features.html#rag">RAG</a></li>
+                    <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                    <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                    <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>API Reference</h3>
+                <ul class="nav-links">
+                    <li><a href="APIReference.html#agent">Agent API</a></li>
+                    <li><a href="APIReference.html#tool">Tool API</a></li>
+                    <li><a href="APIReference.html#memory">Memory API</a></li>
+                    <li><a href="APIReference.html#llm">LLM API</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Resources</h3>
+                <ul class="nav-links">
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="FAQpage.html">FAQ</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">Tools Management</h1>
+            
+            <div class="section">
+                <h2 class="section-title">Overview</h2>
+                <div class="section-content">
+                    <p>The framework's tools system is designed for simplicity and extensibility. Each tool is defined by a JSON configuration file and a corresponding Python implementation. The configuration file specifies details such as the tool's name, description, function path, and expected parameters. The core agent dynamically loads these tool configurations at startup, making them available during query processing.</p>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="section">
+                <h2 class="section-title">Key Components</h2>
+                <div class="section-content">
+                    <h3>ToolManager (Module: <code>tool.py</code>)</h3>
+                    <p>The <code>ToolManager</code> class provides several static methods for managing tools:</p>
+                    
+                    <ul>
+                        <li><strong><code>create_tool_config</code></strong><br>
+                        Creates a tool configuration file in the <code>tools/</code> directory. It defines the tool's metadata, the function path to its implementation, and a JSON schema for its parameters.</li>
+                        
+                        <li><strong><code>register_basic_tools</code></strong><br>
+                        Registers a set of pre-defined tools (e.g., a calculator) by creating the required configuration files and directory structure.</li>
+                        
+                        <li><strong><code>setup_basic_config</code></strong><br>
+                        Sets up the initial agent configuration file (e.g., <code>agent_config.json</code>) and registers basic tools, providing a ready-to-use environment for the agent.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="section">
+                <h2 class="section-title">Creating a New Tool</h2>
+                <div class="section-content">
+                    <h3>1. Define the Tool Configuration</h3>
+                    <p>Use the <code>ToolManager.create_tool_config</code> method to define a new tool. For example, here's how you might create a currency converter tool:</p>
+                    
+                    <pre><code>from tool import ToolManager
+
+ToolManager.create_tool_config(
+    tool_name="currency_converter",
+    description="Converts an amount from one currency to another.",
+    function_path="tools.currency_converter.convert",  # The module and function to call
+    parameters={
+        "amount": {
+            "type": "number",
+            "description": "The amount of money to convert."
+        },
+        "from_currency": {
+            "type": "string",
+            "description": "The currency code to convert from (e.g., 'USD')."
+        },
+        "to_currency": {
+            "type": "string",
+            "description": "The currency code to convert to (e.g., 'EUR')."
+        }
+    },
+    required_params=["amount", "from_currency", "to_currency"]
+)</code></pre>
+                    
+                    <p>This code creates a JSON configuration file (e.g., <code>tools/currency_converter.json</code>) that describes the tool.</p>
+                    
+                    <h3>2. Implement the Tool Function</h3>
+                    <p>Create a corresponding Python module for the tool's functionality. For the currency converter example, you might implement it as follows:</p>
+                    
+                    <pre><code># File: tools/currency_converter/convert.py
+
+def convert(amount, from_currency, to_currency):
+    # Dummy conversion logic for demonstration purposes
+    conversion_rate = 0.85  # Assume a fixed conversion rate
+    result = amount * conversion_rate
+    return f"{amount} {from_currency} is approximately {result:.2f} {to_currency}"</code></pre>
+                    
+                    <p>Ensure the module and function name match the <code>function_path</code> specified in the tool configuration.</p>
+                    
+                    <h3>3. Register the Tool</h3>
+                    <p>Once the configuration and implementation are in place, add the tool's name to your agent configuration file (e.g., <code>agent_config.json</code>) under the <code>"tools"</code> list:</p>
+                    
+                    <pre><code>{
+  "agent_name": "SmartAssistant",
+  "config": {
+    "backstory": "I help users with various tasks.",
+    "task": "assist with tasks using integrated tools",
+    "tools": ["currency_converter", "calculator"],
+    "memory": true
+  }
+}</code></pre>
+                    
+                    <p>When the agent starts, it loads tool configurations from the <code>tools/</code> directory, making the new tool available for use.</p>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="section">
+                <h2 class="section-title">Tool Execution</h2>
+                <div class="section-content">
+                    <p>During query processing, if the LLM suggests a tool call (formatted in JSON), the agent will:</p>
+                    <ul>
+                        <li><strong>Extract</strong> the tool name and parameters.</li>
+                        <li><strong>Dynamically import</strong> the module specified in the tool configuration.</li>
+                        <li><strong>Execute</strong> the tool function with the provided parameters.</li>
+                        <li><strong>Integrate</strong> the tool's result into the conversation context.</li>
+                    </ul>
+                    
+                    <p>The <code>_execute_tool</code> method in the Agent class handles these steps, ensuring a smooth workflow from the LLM's suggestion to the tool's execution.</p>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="section">
+                <h2 class="section-title">Example of Tool Usage in an Agent</h2>
+                <div class="section-content">
+                    <p>Below is an example that demonstrates how the agent uses the tool system to process a query requiring tool execution:</p>
+                    
+                    <pre><code>from agent import create_agent, run_agent
+
+# Create an agent using the configuration file that includes tool definitions
+agent = create_agent("agent_config.json", llm_provider="openai")
+
+# Run the agent with a query that triggers a tool call (e.g., a calculation or conversion)
+response = run_agent(agent, "Convert 100 USD to EUR")
+print("Agent Response:", response)</code></pre>
+                    
+                    <p>If the LLM determines that the query should be handled by the currency converter tool, the agent will call the <code>convert</code> function from <code>tools/currency_converter/convert.py</code> and incorporate the result into its final response.</p>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="section">
+                <h2 class="section-title">Summary</h2>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Configuration Driven:</strong><br>
+                        Tools are defined via JSON configuration files, making it easy to add, remove, or update tools without modifying core code.</li>
+                        
+                        <li><strong>Dynamic Execution:</strong><br>
+                        The agent dynamically loads and executes tool functions based on the configuration, allowing flexible extension of capabilities.</li>
+                        
+                        <li><strong>Easy Integration:</strong><br>
+                        New tools can be seamlessly integrated by following the steps of defining a configuration, implementing the functionality, and registering the tool in your agent configuration.</li>
+                    </ul>
+                    
+                    <p>This modular approach empowers developers to expand the framework's functionality and tailor the agent to a wide variety of use cases.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

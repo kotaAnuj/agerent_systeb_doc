@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Framework Documentation - Extending the Framework</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+    margin: 0;
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    color: white;
+    text-align: var(--bs-body-text-align);
+    background-color: #212529;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    margin-left: 280px;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    margin-right: 0;
+    margin-left: 0;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">AF</div>
+                <div class="logo-text">Agent Framework</div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search documentation...">
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul class="nav-links">
+                    <li><a href="agent-framework-overview.html">Overview</a></li>
+                    <li><a href="agent-framework-installation.html">Installation</a></li>
+                    <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                    <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Core Components</h3>
+                <ul class="nav-links">
+                    <li><a href="core-components.html#memory">Memory Management</a></li>
+                    <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                    <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                    <li><a href="agent-configuration.html">Agent Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Advanced Features</h3>
+                <ul class="nav-links">
+                    <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                    <li><a href="advanced-features.html#rag">RAG</a></li>
+                    <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                    <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                    <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>API Reference</h3>
+                <ul class="nav-links">
+                    <li><a href="APIReference.html#agent">Agent API</a></li>
+                    <li><a href="APIReference.html#tool">Tool API</a></li>
+                    <li><a href="APIReference.html#memory">Memory API</a></li>
+                    <li><a href="APIReference.html#llm">LLM API</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Resources</h3>
+                <ul class="nav-links">
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="FAQpage.html">FAQ</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">Extending the Framework</h1>
+            
+            <div class="section">
+                <div class="section-content">
+                    <p>This section explains how you can extend and customize the framework to suit your needs. The framework is designed to be modular, allowing you to add new tools, swap memory modules, and integrate additional LLM providers with minimal changes to the core code.</p>
+                </div>
+                
+                <div class="numbered-steps">
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Adding New Tools</div>
+                        </div>
+                        <div class="step-content">
+                            <h3>Overview</h3>
+                            <p>Tools extend the agent's capabilities by performing specialized functions (e.g., data processing, calculations, or even external API calls). New tools can be added by creating a configuration file and implementing the corresponding Python function.</p>
+                            
+                            <h3>Steps</h3>
+                            <ol>
+                                <li><strong>Create a Tool Configuration File:</strong><br>
+                                Use the helper method <code>ToolManager.create_tool_config</code> to define the tool's properties, including its name, description, function path, and parameter schema.</li>
+                                <li><strong>Implement the Tool Function:</strong><br>
+                                Write a Python module that implements the tool's functionality.</li>
+                                <li><strong>Register the Tool:</strong><br>
+                                Place the configuration file and the tool implementation in the appropriate directories so that the agent can load them automatically.</li>
+                            </ol>
+                            
+                            <h3>Code Example</h3>
+                            <div class="file-label">Python Code Example</div>
+                            <pre><code>from tool import ToolManager
+
+# Define a new tool configuration for a currency converter
+ToolManager.create_tool_config(
+    tool_name="currency_converter",
+    description="Converts an amount from one currency to another.",
+    function_path="tools.currency_converter.convert",  # Function should be implemented accordingly
+    parameters={
+        "amount": {
+            "type": "number",
+            "description": "The amount of money to convert."
+        },
+        "from_currency": {
+            "type": "string",
+            "description": "The currency code to convert from (e.g., 'USD')."
+        },
+        "to_currency": {
+            "type": "string",
+            "description": "The currency code to convert to (e.g., 'EUR')."
+        }
+    },
+    required_params=["amount", "from_currency", "to_currency"]
+)
+
+# After creating the configuration, implement the corresponding function:
+# File: tools/currency_converter/convert.py
+# Example implementation:
+
+# In tools/currency_converter/convert.py
+def convert(amount, from_currency, to_currency):
+    # Dummy conversion logic for demonstration
+    conversion_rate = 0.85  # Assume a fixed conversion rate
+    result = amount * conversion_rate
+    return f"{amount} {from_currency} is approximately {result:.2f} {to_currency}"</code></pre>
+                            
+                            <p>Once the tool is configured and implemented, add <code>"currency_converter"</code> to the tools list in your agent configuration file.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Switching Memory Modules</div>
+                        </div>
+                        <div class="step-content">
+                            <h3>Overview</h3>
+                            <p>The framework supports multiple memory implementations. By default, a basic memory is used, but you can opt for a semantic memory module that leverages embedding-based retrieval (using SentenceTransformers and FAISS) for better context management.</p>
+                            
+                            <h3>Steps</h3>
+                            <ol>
+                                <li><strong>Update the Configuration File:</strong><br>
+                                Add a new key (e.g., <code>"memory_type": "semantic"</code>) to your configuration file.</li>
+                                <li><strong>Modify Agent Initialization:</strong><br>
+                                In <code>agent.py</code>, check the configuration value and instantiate the appropriate memory class.</li>
+                            </ol>
+                            
+                            <h3>Code Example</h3>
+                            <div class="file-label">JSON Configuration</div>
+                            <pre><code>// Example agent_config.json
+{
+  "agent_name": "SmartAssistant",
+  "config": {
+    "backstory": "I have advanced context awareness using semantic memory.",
+    "task": "assist users with advanced queries",
+    "tools": ["calculator"],
+    "memory": true,
+    "memory_type": "semantic",  // Switch from basic to semantic memory
+    "prompt_template": ""
+  }
+}</code></pre>
+                            
+                            <div class="file-label">Python Code</div>
+                            <pre><code># Inside Agent.__init__ in agent.py
+
+config_data = self.config.get("config", {})
+memory_enabled = config_data.get("memory", False)
+memory_type = config_data.get("memory_type", "basic").lower()
+
+if memory_enabled:
+    if memory_type == "semantic":
+        from semantic_memory import SemanticMemory
+        self.memory = SemanticMemory(max_items=10, enabled=True)
+    else:
+        self.memory = Memory(max_items=10, enabled=True)
+else:
+    self.memory = Memory(max_items=10, enabled=False)</code></pre>
+                            
+                            <p>This allows you to toggle between memory modules without modifying the core logic.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Integrating New LLM Providers</div>
+                        </div>
+                        <div class="step-content">
+                            <h3>Overview</h3>
+                            <p>The framework is designed to work with multiple LLM providers by abstracting their functionality via the <code>LLMProvider</code> interface. To integrate a new provider, create a new class that extends <code>LLMProvider</code> and implement the required methods.</p>
+                            
+                            <h3>Steps</h3>
+                            <ol>
+                                <li><strong>Implement the Provider Class:</strong><br>
+                                Create a new Python class (e.g., <code>CustomLLMProvider</code>) that inherits from <code>LLMProvider</code> and implements <code>format_tools</code>, <code>get_response</code>, and <code>extract_tool_call</code>.</li>
+                                <li><strong>Update the Provider Selector:</strong><br>
+                                Modify the <code>get_llm_provider</code> function in <code>llm_provider.py</code> to return an instance of your new provider when specified.</li>
+                            </ol>
+                            
+                            <h3>Code Example</h3>
+                            <div class="file-label">Python Code</div>
+                            <pre><code># In llm_provider.py, add a new provider class
+
+class CustomLLMProvider(LLMProvider):
+    """Custom LLM provider implementation using a hypothetical API."""
+    
+    def __init__(self, model="custom-model"):
+        self.model = model
+        # Assume you have an API key in your environment variables
+        self.api_key = os.environ.get("CUSTOM_API_KEY")
+        if not self.api_key:
+            print("Warning: CUSTOM_API_KEY not set in environment variables")
+    
+    def format_tools(self, tools: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+        # Custom tool formatting logic
+        formatted_tools = []
+        for tool_name, tool_config in tools.items():
+            formatted_tool = {
+                "type": "function",
+                "function": {
+                    "name": tool_name,
+                    "description": tool_config.get("description", ""),
+                    "parameters": tool_config.get("parameters", {})
+                }
+            }
+            formatted_tools.append(formatted_tool)
+        return formatted_tools
+    
+    def get_response(self, messages: List[Dict[str, Any]], tools: Optional[List[Dict[str, Any]]]) -> str:
+        # Custom logic to interact with the new LLM provider API
+        # For demonstration, simply return a dummy response
+        return "This is a response from CustomLLMProvider."
+    
+    def extract_tool_call(self, response_text: str) -> Optional[Dict[str, Any]]:
+        # Custom extraction logic, similar to the base implementation
+        return None
+
+# Update get_llm_provider to include the new provider
+def get_llm_provider(provider_name: str) -> LLMProvider:
+    if provider_name.lower() == "openai":
+        return OpenAIProvider()
+    elif provider_name.lower() == "anthropic":
+        return AnthropicProvider()
+    elif provider_name.lower() == "custom":
+        return CustomLLMProvider()
+    else:
+        raise ValueError(f"Unsupported LLM provider: {provider_name}")</code></pre>
+                            
+                            <p>To use your new provider, update the agent configuration or creation call:</p>
+                            
+                            <div class="file-label">Python Code</div>
+                            <pre><code># Create an agent using the new custom LLM provider
+agent = create_agent("agent_config.json", llm_provider="custom")</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>Summary</h3>
+                    <ul>
+                        <li><strong>Adding New Tools:</strong><br>
+                        Extend the agent's functionality by creating new tool configurations and implementing the corresponding functions.</li>
+                        
+                        <li><strong>Switching Memory Modules:</strong><br>
+                        Use configuration flags to switch between basic and semantic memory implementations without changing core code.</li>
+                        
+                        <li><strong>Integrating New LLM Providers:</strong><br>
+                        Add new provider classes that inherit from <code>LLMProvider</code> and update the provider selection logic to support additional APIs.</li>
+                    </ul>
+                    <p>By following these guidelines, you can easily extend and customize the framework to meet your specific application requirements.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

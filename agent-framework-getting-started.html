@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Framework Documentation - Getting Started</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+        margin: 0;
+        font-family: var(--bs-body-font-family);
+        font-size: var(--bs-body-font-size);
+        font-weight: var(--bs-body-font-weight);
+        line-height: var(--bs-body-line-height);
+        color: white;
+        text-align: var(--bs-body-text-align);
+        background-color: #212529;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+        margin-left: 280px;
+    }
+    
+    .container {
+        display: flex;
+        min-height: 100vh;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">AF</div>
+                <div class="logo-text">Agent Framework</div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search documentation...">
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul class="nav-links">
+                    <li><a href="agent-framework-overview.html">Overview</a></li>
+                    <li><a href="agent-framework-installation.html">Installation</a></li>
+                    <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                    <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Core Components</h3>
+                <ul class="nav-links">
+                    <li><a href="core-components.html#memory">Memory Management</a></li>
+                    <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                    <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                    <li><a href="agent-configuration.html">Agent Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Advanced Features</h3>
+                <ul class="nav-links">
+                    <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                    <li><a href="advanced-features.html#rag">RAG</a></li>
+                    <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                    <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                    <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>API Reference</h3>
+                <ul class="nav-links">
+                    <li><a href="APIReference.html#agent">Agent API</a></li>
+                    <li><a href="APIReference.html#tool">Tool API</a></li>
+                    <li><a href="APIReference.html#memory">Memory API</a></li>
+                    <li><a href="APIReference.html#llm">LLM API</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Resources</h3>
+                <ul class="nav-links">
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="FAQpage.html">FAQ</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">Getting Started</h1>
+            
+            <div class="section">
+                <div class="section-content">
+                    <p>This section walks you through the initial steps to set up and run your agent. It covers creating an agent configuration, registering basic tools, and finally creating and running the agent.</p>
+                </div>
+                
+                <div class="numbered-steps">
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Create an Agent Configuration</div>
+                        </div>
+                        <div class="step-content">
+                            <p>Start by creating a JSON file (for example, <code>agent_config.json</code>) to define your agent's properties, such as its name, backstory, task, tools to use, and memory settings.</p>
+                            
+                            <div class="file-label">agent_config.json</div>
+                            <pre><code>{
+  "agent_name": "MathAssistant",
+  "config": {
+    "backstory": "I am a helpful assistant with math skills.",
+    "task": "help users solve mathematical problems using my calculator tool when needed",
+    "tools": ["calculator"],
+    "memory": true,
+    "prompt_template": ""
+  }
+}</code></pre>
+                            
+                            <dl class="property-list">
+                                <dt>agent_name:</dt>
+                                <dd>The name of your agent.</dd>
+                                
+                                <dt>backstory:</dt>
+                                <dd>A brief description of your agent.</dd>
+                                
+                                <dt>task:</dt>
+                                <dd>The main function or purpose of the agent.</dd>
+                                
+                                <dt>tools:</dt>
+                                <dd>A list of tools (by name) that the agent can use.</dd>
+                                
+                                <dt>memory:</dt>
+                                <dd>Boolean value to enable or disable conversation memory.</dd>
+                                
+                                <dt>prompt_template (optional):</dt>
+                                <dd>Custom prompt format if you want to override the default prompt.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Register Basic Tools</div>
+                        </div>
+                        <div class="step-content">
+                            <p>Before running the agent, register the basic tools using the provided utility in <code>tool.py</code>. For example, you can register a simple calculator tool.</p>
+                            
+                            <div class="file-label">Code Example:</div>
+                            <pre><code>from tool import ToolManager
+
+# Register basic tools (e.g., a calculator) and set up the agent configuration.
+ToolManager.setup_basic_config()</code></pre>
+                            
+                            <p>This command will:</p>
+                            <ul>
+                                <li>Create a tool configuration file (e.g., <code>tools/calculator.json</code>).</li>
+                                <li>Set up the necessary directory structure and Python modules for the tool.</li>
+                                <li>Generate an agent configuration file (<code>agent_config.json</code>) if it doesn't already exist.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Create and Run the Agent</div>
+                        </div>
+                        <div class="step-content">
+                            <p>With the configuration and tools in place, you can now create and run the agent. Use the helper functions provided in <code>agent.py</code>.</p>
+                            
+                            <div class="file-label">Code Example:</div>
+                            <pre><code>from agent import create_agent, run_agent
+
+# Create an agent by providing the path to your configuration file
+agent = create_agent("agent_config.json", llm_provider="openai")
+
+# Run the agent with a query and print the response
+response = run_agent(agent, "What is 2 + 2?")
+print("Agent Response:", response)</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="under-hood">
+                    <h3>What Happens Under the Hood:</h3>
+                    <ul>
+                        <li><strong>Configuration Loading:</strong> The agent reads the configuration from <code>agent_config.json</code> and sets up properties like the agent name, tools, and memory settings.</li>
+                        <li><strong>Tool Loading:</strong> It loads tool configurations from the <code>tools/</code> directory. For example, the calculator tool is loaded and becomes available for use.</li>
+                        <li><strong>Memory Initialization:</strong> A memory instance is created (basic or semantic based on further customization) to store conversation history.</li>
+                        <li><strong>LLM Provider Integration:</strong> The agent uses the specified LLM provider (e.g., OpenAI) to process queries. It formats the message prompt with system instructions and conversation context.</li>
+                        <li><strong>Query Processing:</strong> When a query is processed:
+                            <ul>
+                                <li>The agent constructs a complete prompt including system instructions and past conversation (if memory is enabled).</li>
+                                <li>The query is sent to the LLM.</li>
+                                <li>If the LLM output includes a tool call (in JSON format), the specified tool is executed (e.g., the calculator evaluates the expression).</li>
+                                <li>The tool's result is fed back into the conversation, and the final response is generated.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>Summary</h3>
+                    <p>By following these steps, you set up the basic environment for your agent:</p>
+                    <ol>
+                        <li>Create a configuration file that defines your agent's behavior.</li>
+                        <li>Register the required tools.</li>
+                        <li>Create and run the agent to process queries.</li>
+                    </ol>
+                    <p>This modular approach lets you expand the framework further with advanced features, such as semantic memory, RAG, and multimodal support.</p>
+                    <p>Feel free to ask if you have questions or need further assistance with any part of the setup!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Framework - LLM Integration</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+    margin: 0;
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    color: var(--bs-body-color);
+    text-align: var(--bs-body-text-align);
+    background-color: #212529;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    margin-right: 0;
+    margin-left: 0;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">AF</div>
+                <div class="logo-text">Agent Framework</div>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search documentation...">
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul class="nav-links">
+                    <li><a href="agent-framework-overview.html">Overview</a></li>
+                    <li><a href="agent-framework-installation.html">Installation</a></li>
+                    <li><a href="agent-framework-getting-started.html">Quick Start</a></li>
+                    <li><a href="agent-framework-project-structure.html">Architecture</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Core Components</h3>
+                <ul class="nav-links">
+                    <li><a href="core-components.html#memory">Memory Management</a></li>
+                    <li><a href="llm-intigration.html#llm">LLM Integration</a></li>
+                    <li><a href="Tools-management.html#tools">Tool Management</a></li>
+                    <li><a href="agent-configuration.html">Agent Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Advanced Features</h3>
+                <ul class="nav-links">
+                    <li><a href="advanced-features.html#semantic-memory">Semantic Memory</a></li>
+                    <li><a href="advanced-features.html#rag">RAG</a></li>
+                    <li><a href="advanced-features.html#multimodal">Multimodal Support</a></li>
+                    <li><a href="advanced-features.html#streaming">Streaming Responses</a></li>
+                    <li><a href="advanced-features.html#communication">Agent Communication</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>API Reference</h3>
+                <ul class="nav-links">
+                    <li><a href="APIReference.html#agent">Agent API</a></li>
+                    <li><a href="APIReference.html#tool">Tool API</a></li>
+                    <li><a href="APIReference.html#memory">Memory API</a></li>
+                    <li><a href="APIReference.html#llm">LLM API</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Resources</h3>
+                <ul class="nav-links">
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="FAQpage.html">FAQ</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <button class="theme-toggle">☀️</button>
+            <h1 class="page-title">LLM Integration</h1>
+            
+            <div class="section">
+                <h2 class="section-title">Overview</h2>
+                <div class="section-content">
+                    <p>This section explains how the framework integrates with large language models (LLMs) through the <code>llm_provider.py</code> module. The LLM integration is built around an abstract base class and concrete provider implementations that facilitate communication with various LLM APIs.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">1. LLMProvider (Abstract Base Class)</h2>
+                <div class="section-content">
+                    <h3>Purpose</h3>
+                    <p>The <code>LLMProvider</code> class defines a common interface that all LLM providers must implement. This abstraction ensures that the agent can switch between different providers (e.g., OpenAI, Anthropic, or custom providers) with minimal changes to the core agent logic.</p>
+                    
+                    <h3>Key Methods</h3>
+                    <ul>
+                        <li>
+                            <strong><code>format_tools(tools: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]</code></strong><br>
+                            Converts the tool configuration (loaded from JSON files) into the format required by the specific LLM API. For example, OpenAI's function calling requires a structured JSON format.
+                        </li>
+                        <li>
+                            <strong><code>get_response(messages: List[Dict[str, Any]], tools: Optional[List[Dict[str, Any]]]) -> str</code></strong><br>
+                            Sends the conversation messages (including system prompt, user messages, and memory) along with optional tool information to the LLM and returns the model's response.
+                        </li>
+                        <li>
+                            <strong><code>extract_tool_call(response_text: str) -> Optional[Dict[str, Any]]</code></strong><br>
+                            Parses the LLM's response to detect if it includes a tool call, typically formatted as JSON. This method extracts the tool name and parameters if present.
+                        </li>
+                    </ul>
+                    
+                    <h3>Example (Abstract Behavior)</h3>
+                    <pre><code>class LLMProvider:
+    def format_tools(self, tools: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+        raise NotImplementedError("Subclasses must implement format_tools")
+    
+    def get_response(self, messages: List[Dict[str, Any]], tools: Optional[List[Dict[str, Any]]]) -> str:
+        raise NotImplementedError("Subclasses must implement get_response")
+    
+    def extract_tool_call(self, response_text: str) -> Optional[Dict[str, Any]]:
+        # Common logic to search for JSON formatted tool calls in the response.
+        try:
+            import json, re
+            json_match = re.search(r'```(?:json)?\s*({[\s\S]*?})\s*```', response_text, re.DOTALL)
+            if not json_match:
+                json_match = re.search(r'^({[\s\S]*})$', response_text.strip(), re.DOTALL)
+            if json_match:
+                tool_call = json.loads(json_match.group(1))
+                if "tool" in tool_call and "parameters" in tool_call:
+                    return tool_call
+        except Exception as e:
+            print(f"Error extracting tool call: {str(e)}")
+        return None</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">2. OpenAIProvider (Concrete Implementation)</h2>
+                <div class="section-content">
+                    <h3>Purpose</h3>
+                    <p>Implements the LLMProvider interface for OpenAI's GPT models, utilizing their function-calling feature.</p>
+                    
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>
+                            <strong>Tool Formatting:</strong><br>
+                            Converts tool definitions into a JSON schema that the OpenAI API expects for function calling.
+                        </li>
+                        <li>
+                            <strong>Response Handling:</strong><br>
+                            Handles communication with the OpenAI API, including error handling if the API key is missing or if the module isn't installed.
+                        </li>
+                        <li>
+                            <strong>Function Extraction:</strong><br>
+                            Uses a regular expression to extract a JSON block from the response, which is expected to include a tool call when the LLM suggests using a tool.
+                        </li>
+                    </ul>
+                    
+                    <h3>Example Code</h3>
+                    <pre><code>class OpenAIProvider(LLMProvider):
+    def __init__(self, model="gpt-4"):
+        self.model = model
+        self.api_key = os.environ.get("OPENAI_API_KEY")
+        if not self.api_key:
+            print("Warning: OPENAI_API_KEY not set in environment variables")
+    
+    def format_tools(self, tools: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+        formatted_tools = []
+        for tool_name, tool_config in tools.items():
+            formatted_tool = {
+                "type": "function",
+                "function": {
+                    "name": tool_name,
+                    "description": tool_config.get("description", ""),
+                    "parameters": tool_config.get("parameters", {})
+                }
+            }
+            formatted_tools.append(formatted_tool)
+        return formatted_tools
+    
+    def get_response(self, messages: List[Dict[str, Any]], tools: Optional[List[Dict[str, Any]]]) -> str:
+        if not self.api_key:
+            return "Error: OpenAI API key not set. Please set the OPENAI_API_KEY environment variable."
+        try:
+            import importlib.util
+            if importlib.util.find_spec("openai") is None:
+                return "Error: OpenAI module not installed. Please install it with 'pip install openai'"
+            import openai
+            
+            client = openai.Client(api_key=self.api_key)
+            args = {
+                "model": self.model,
+                "messages": messages,
+                "temperature": 0.7
+            }
+            if tools:
+                args["tools"] = tools
+                args["tool_choice"] = "auto"
+            response = client.chat.completions.create(**args)
+            return response.choices[0].message.content
+        except Exception as e:
+            return f"Error calling OpenAI API: {str(e)}"</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">3. AnthropicProvider (Concrete Implementation)</h2>
+                <div class="section-content">
+                    <h3>Purpose</h3>
+                    <p>Provides integration with Anthropic's Claude model. Since Anthropic's API handles tool information differently (often embedded in the system prompt), this provider doesn't format tool calls as directly as OpenAI.</p>
+                    
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>
+                            <strong>System Prompt Handling:</strong><br>
+                            Extracts and prepares system messages differently, as Claude requires a specific format.
+                        </li>
+                        <li>
+                            <strong>Response Parsing:</strong><br>
+                            Processes Claude's response to extract content, handling nuances of Anthropic's message structure.
+                        </li>
+                    </ul>
+                    
+                    <h3>Example Code</h3>
+                    <pre><code>class AnthropicProvider(LLMProvider):
+    def __init__(self, model="claude-3-opus-20240229"):
+        self.model = model
+        self.api_key = os.environ.get("ANTHROPIC_API_KEY")
+        if not self.api_key:
+            print("Warning: ANTHROPIC_API_KEY not set in environment variables")
+    
+    def format_tools(self, tools: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+        # Claude uses prompt-based tool integration rather than function calls.
+        return []
+    
+    def get_response(self, messages: List[Dict[str, Any]], tools: Optional[List[Dict[str, Any]]]) -> str:
+        if not self.api_key:
+            return "Error: Anthropic API key not set. Please set the ANTHROPIC_API_KEY environment variable."
+        try:
+            import importlib.util
+            if importlib.util.find_spec("anthropic") is None:
+                return "Error: Anthropic module not installed. Please install it with 'pip install anthropic'"
+            import anthropic
+            
+            client = anthropic.Anthropic(api_key=self.api_key)
+            system_prompt = ""
+            claude_messages = []
+            for msg in messages:
+                if msg["role"] == "system":
+                    if not claude_messages:
+                        system_prompt = msg["content"]
+                    else:
+                        claude_messages.append({
+                            "role": "assistant",
+                            "content": f"System message: {msg['content']}"
+                        })
+                elif msg["role"] == "user":
+                    claude_messages.append({"role": "user", "content": msg["content"]})
+                elif msg["role"] == "assistant":
+                    claude_messages.append({"role": "assistant", "content": msg["content"]})
+            
+            response = client.messages.create(
+                model=self.model,
+                system=system_prompt,
+                messages=claude_messages,
+                max_tokens=2000,
+                temperature=0.7
+            )
+            return response.content[0].text
+        except Exception as e:
+            return f"Error calling Anthropic API: {str(e)}"</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">4. Custom LLM Provider (Example Extension)</h2>
+                <div class="section-content">
+                    <p>If you want to integrate an LLM provider that isn't natively supported, you can create a custom provider by extending <code>LLMProvider</code>.</p>
+                    
+                    <h3>Example Code</h3>
+                    <pre><code>class CustomLLMProvider(LLMProvider):
+    """Example custom provider implementation using a hypothetical API."""
+    
+    def __init__(self, model="custom-model"):
+        self.model = model
+        self.api_key = os.environ.get("CUSTOM_API_KEY")
+        if not self.api_key:
+            print("Warning: CUSTOM_API_KEY not set in environment variables")
+    
+    def format_tools(self, tools: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+        formatted_tools = []
+        for tool_name, tool_config in tools.items():
+            formatted_tool = {
+                "type": "function",
+                "function": {
+                    "name": tool_name,
+                    "description": tool_config.get("description", ""),
+                    "parameters": tool_config.get("parameters", {})
+                }
+            }
+            formatted_tools.append(formatted_tool)
+        return formatted_tools
+    
+    def get_response(self, messages: List[Dict[str, Any]], tools: Optional[List[Dict[str, Any]]]) -> str:
+        # Replace this stub with your API call logic.
+        return "Response from CustomLLMProvider."
+    
+    def extract_tool_call(self, response_text: str) -> Optional[Dict[str, Any]]:
+        return None</code></pre>
+                    
+                    <p>To use your custom provider, update the provider selector in <code>llm_provider.py</code>:</p>
+                    
+                    <pre><code>def get_llm_provider(provider_name: str) -> LLMProvider:
+    if provider_name.lower() == "openai":
+        return OpenAIProvider()
+    elif provider_name.lower() == "anthropic":
+        return AnthropicProvider()
+    elif provider_name.lower() == "custom":
+        return CustomLLMProvider()
+    else:
+        raise ValueError(f"Unsupported LLM provider: {provider_name}")</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Summary</h2>
+                <div class="section-content">
+                    <ul>
+                        <li>
+                            <strong>Abstraction:</strong><br>
+                            The <code>LLMProvider</code> abstract class standardizes how LLMs are integrated.
+                        </li>
+                        <li>
+                            <strong>Concrete Implementations:</strong><br>
+                            Providers like <code>OpenAIProvider</code> and <code>AnthropicProvider</code> implement specific API interactions.
+                        </li>
+                        <li>
+                            <strong>Flexibility:</strong><br>
+                            The design allows easy integration of new providers through a common interface.
+                        </li>
+                        <li>
+                            <strong>Tool Call Extraction:</strong><br>
+                            The <code>extract_tool_call</code> method scans LLM responses for JSON blocks that indicate a tool call, enabling dynamic execution of external functions.
+                        </li>
+                    </ul>
+                    
+                    <p>By leveraging this design, the framework provides a flexible, robust, and extensible way to interact with multiple LLM APIs, allowing you to adapt to different environments and requirements with minimal changes to your core agent logic.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

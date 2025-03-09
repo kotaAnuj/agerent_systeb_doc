@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .code-container {
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            border: 1px solid #444;
+        }
+        .code-header {
+            background: linear-gradient(to right, #2d2d2d, #333);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #444;
+        }
+        .language-label {
+            color: #64d9ff;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .language-label::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: #4d9dff;
+            border-radius: 50%;
+        }
+        .code-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .code-actions button {
+            background-color: rgba(80, 80, 80, 0.3);
+            border: 1px solid #555;
+            color: #ddd;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+        .code-actions button:hover {
+            background-color: rgba(100, 100, 100, 0.6);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .code-actions button:active {
+            transform: translateY(0);
+        }
+        .code-content {
+            padding: 0;
+            margin: 0;
+            overflow: auto;
+            position: relative;
+        }
+        .code-content::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(120, 30, 255, 0.05), transparent 60%);
+            pointer-events: none;
+        }
+        .code-content pre {
+            margin: 0;
+            padding: 20px;
+            border-radius: 0;
+            background-color: transparent;
+        }
+        .hljs {
+            background-color: #282c34;
+            padding: 20px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        /* Enhanced syntax highlighting */
+        .hljs-keyword {
+            color: #ff79c6;
+            font-weight: bold;
+        }
+        .hljs-title, .hljs-title.class_ {
+            color: #50fa7b;
+            font-weight: bold;
+        }
+        .hljs-function .hljs-title {
+            color: #8be9fd;
+        }
+        .hljs-string {
+            color: #f1fa8c;
+        }
+        .hljs-comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+        .hljs-built_in {
+            color: #ffb86c;
+        }
+        .hljs-literal, .hljs-number {
+            color: #bd93f9;
+        }
+        .hljs-variable {
+            color: #f8f8f2;
+        }
+        .hljs-params {
+            color: #ff79c6;
+        }
+        .hljs-operator {
+            color: #ff79c6;
+        }
+        .hljs-punctuation {
+            color: #f8f8f2;
+        }
+        /* Line numbers */
+        .line-numbers {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background-color: rgba(40, 40, 40, 0.6);
+            padding: 20px 8px;
+            color: #888;
+            text-align: right;
+            font-family: monospace;
+            font-size: 14px;
+            user-select: none;
+            border-right: 1px solid #444;
+        }
+        .code-with-numbers {
+            padding-left: 50px;
+            position: relative;
+        }
+        .page-title {
+            margin-top: 20px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .page-title::before {
+            content: '⚡';
+            font-size: 24px;
+        }
+        /* Glow effect on hover */
+        .code-container:hover {
+            box-shadow: 0 0 20px rgba(80, 180, 255, 0.2);
+        }
+        /* Tab bar */
+        .tab-bar {
+            background-color: #252525;
+            display: flex;
+            padding: 0 10px;
+            border-bottom: 1px solid #444;
+        }
+        .tab {
+            padding: 8px 16px;
+            color: #aaa;
+            border-right: 1px solid #333;
+            font-size: 13px;
+            position: relative;
+        }
+        .tab.active {
+            color: #fff;
+            background-color: #282c34;
+        }
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #61afef;
+        }
+    </style>
+</head>
+<body>
+    <div class="code-container">
+        <div class="code-header">
+          <span class="language-indicator">python</span>
+          <div class="code-actions">
+            <button class="code-action-button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy
+            </button>
+            <button class="code-action-button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+              Edit
+            </button>
+          </div>
+        </div>
+        <pre><code class="language-python">import time
+      from evaluation_framework import EvaluationFramework
+      # Initialize evaluation framework
+      eval_framework = EvaluationFramework()
+      # Start a timer and simulate a process
+      start_time = time.time()
+      # ... perform some operations ...
+      time.sleep(0.5)
+      # Evaluate and log response time
+      response_time = eval_framework.evaluate_response_time(start_time)
+      print("Response Time:", response_time)
+      # Retrieve and print all metrics
+      metrics_report = eval_framework.report()
+      print("Metrics Report:", metrics_report)</code></pre>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            hljs.highlightAll();
+            
+            // Copy button functionality
+            const copyButton = document.getElementById('copyBtn');
+            copyButton.addEventListener('click', () => {
+                const codeText = document.querySelector('.code-content code').textContent;
+                navigator.clipboard.writeText(codeText).then(() => {
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#50fa7b" class="bi bi-check" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/></svg> Copied!';
+                    copyButton.style.backgroundColor = 'rgba(80, 250, 123, 0.2)';
+                    copyButton.style.borderColor = '#50fa7b';
+                    
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                        copyButton.style.backgroundColor = '';
+                        copyButton.style.borderColor = '';
+                    }, 2000);
+                });
+            });
+            
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
